@@ -60,3 +60,31 @@
     }
   }
 }
+
+@layer components {
+  /* Skip link: visually hidden until keyboard-focused, then pinned to the
+   * top of the viewport so keyboard users can jump past the hero/nav. */
+  .skip-link {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 100;
+    transform: translate(-50%, -100%);
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+    background-color: var(--color-roast-800);
+    color: var(--color-cream);
+    font-weight: 600;
+    transition: transform 150ms ease-in-out;
+  }
+
+  .skip-link:focus {
+    transform: translate(-50%, 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skip-link {
+      transition: none;
+    }
+  }
+}
