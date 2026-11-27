@@ -1,16 +1,16 @@
 // Centralized editable content for the Bean & Brew landing page.
 // Update values here; components read from this file.
 
-export const site = {
+export const siteInfo = {
   name: 'Bean & Brew',
   tagline: 'Slow coffee, warm mornings',
   blurb: 'Small-batch roasts poured with care. Stop by for a quiet cup or catch up with friends.',
 };
 
-export const menu = [
-  { name: 'Espresso', description: 'Double shot, rich and smooth', price: 3.0 },
-  { name: 'Latte', description: 'Steamed milk over a double shot', price: 4.5 },
-  { name: 'Cold Brew', description: 'Slow-steeped for 18 hours, served over ice', price: 4.75 },
+export const menuItems = [
+  { name: 'Espresso', description: 'Double shot, rich and smooth', price: '$3.50' },
+  { name: 'Latte', description: 'Steamed milk over a double shot', price: '$4.50' },
+  { name: 'Cold Brew', description: 'Slow-steeped for 18 hours, served over ice', price: '$4.75' },
 ];
 
 export const hours = [
@@ -23,7 +23,7 @@ export const hours = [
   { day: 'Sunday', open: null, close: null },
 ];
 
-export const gallery = [
+export const galleryItems = [
   { caption: 'Espresso pull', alt: 'Barista pulling an espresso shot', tone: 'bg-amber-200' },
   { caption: 'Latte art', alt: 'Latte with rosetta foam art', tone: 'bg-stone-200' },
   { caption: 'Cold brew pour', alt: 'Cold brew poured over ice', tone: 'bg-sky-200' },
