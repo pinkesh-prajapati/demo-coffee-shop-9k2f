@@ -1,0 +1,62 @@
+/* Bean & Brew — global styles
+ *
+ * Tailwind CSS v4 (CSS-first config): the @theme tokens below replace a
+ * tailwind.config.js, so no config file is needed. Brand colors are exposed
+ * to utilities as e.g. bg-roast-700, text-cream, and font-display.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* Warm coffee-house palette */
+  --color-cream: #faf5ee;
+  --color-roast-50: #f8f1e9;
+  --color-roast-100: #eddfcc;
+  --color-roast-200: #dcc3a3;
+  --color-roast-300: #c9a276;
+  --color-roast-400: #b58554;
+  --color-roast-500: #9c6b3f;
+  --color-roast-600: #815533;
+  --color-roast-700: #654129;
+  --color-roast-800: #482e1d;
+  --color-roast-900: #2e1d12;
+
+  /* Accent for "open now" badges and inline links */
+  --color-leaf: #5c7355;
+
+  /* Typography */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-roast-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-roast-300);
+    color: var(--color-roast-900);
+  }
+
+  /* Keep keyboard focus clearly visible on links and form controls */
+  :focus-visible {
+    outline: 2px solid var(--color-roast-500);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
