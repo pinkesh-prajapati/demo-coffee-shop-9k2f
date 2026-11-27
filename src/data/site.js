@@ -37,3 +37,8 @@ export const contact = {
   phone: '(555) 010-2233',
   email: 'hello@beanandbrew.example',
 };
+
+// Aliases so components importing menuItems / galleryItems resolve correctly.
+// menu and gallery remain the single source of truth.
+export const menuItems = menu;
+export const galleryItems = gallery;
