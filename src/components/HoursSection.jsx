@@ -1,5 +1,12 @@
 import { hours } from '../data/site.js';
 
+function formatHours(entry) {
+  if (entry.open == null || entry.close == null) {
+    return 'Closed';
+  }
+  return `${entry.open} – ${entry.close}`;
+}
+
 export default function HoursSection() {
   return (
     <section id="hours" className="bg-stone-100 py-16">
@@ -10,7 +17,7 @@ export default function HoursSection() {
           {hours.map((entry) => (
             <div key={entry.day} className="flex items-center justify-between px-4 py-3">
               <dt className="font-medium text-stone-800">{entry.day}</dt>
-              <dd className="text-stone-600">{entry.time}</dd>
+              <dd className="text-stone-600">{formatHours(entry)}</dd>
             </div>
           ))}
         </dl>

@@ -2,7 +2,7 @@
 
 This repository hosts **Bean & Brew**, a single-page coffee shop landing site built with React, Vite, and Tailwind CSS. The page presents the shop's brand (hero with the verbatim tagline "Slow coffee, warm mornings"), a menu with prices for espresso, latte, and cold brew, opening hours, a photo gallery with placeholders, and a contact form. There is no backend, database, or API layer — the entire experience is a client-rendered static site produced by the Vite toolchain and served via the live preview deployment step.
 
-The project is fully scaffolded and verified: `npm run build` compiles the production bundle without errors, and `vite preview` serves the bundle for the live preview deployment.
+The project is fully scaffolded and verified: `pnpm run build` compiles the production bundle without errors, and the live preview deployment serves the bundle.
 
 ## System Diagram
 
@@ -24,10 +24,10 @@ flowchart TD
         DATA["src/data/site.js - centralized content"]
         HERO["HeroSection - shop name and tagline"]
         MENU["MenuSection - espresso, latte, cold brew prices"]
-        HOURS["HoursSection - opening hours"]
+        HOURS["HoursSection - opening hours, Closed for null days"]
         GALLERY["GallerySection - placeholder tiles"]
         FORM["ContactSection - name, email, message with client-side validation"]
-        FOOTER["Footer"]
+        FOOTER["Footer - site name, tagline, copyright"]
     end
 
     subgraph Styling["Styling Layer"]
@@ -53,6 +53,7 @@ flowchart TD
     DATA --> MENU
     DATA --> HOURS
     DATA --> GALLERY
+    DATA --> FOOTER
     CSS --> TW
     TW --> HERO
     TW --> MENU
@@ -90,18 +91,29 @@ End-to-end summary: the visitor requests the page from either the Vite dev serve
 |---|---|
 | `index.html` | Vite HTML entry point; mounts the React app at `#root`; carries page title, meta description, theme color, and social sharing tags. |
 | `src/main.jsx` | Entry point; renders `App` in `StrictMode` and imports the global CSS. |
-| `src/App.jsx` | Top-level component; composes the landing page sections in order (Hero, Menu, Hours, Gallery, Contact) plus a skip link and Footer. |
-| `src/data/site.js` | Single source of truth for all editable content: site name, tagline "Slow coffee, warm mornings", blurb, menu items with prices (espresso, latte, cold brew), per-day opening hours, and gallery placeholder tone classes. |
-| `src/components/HeroSection.jsx` | Displays shop name "Bean & Brew" and tagline "Slow coffee, warm mornings" verbatim, plus the blurb from `site.js`. |
-| `src/components/MenuSection.jsx` | Renders menu items and prices from `site.js`. |
-| `src/components/HoursSection.jsx` | Displays per-day opening hours from `site.js`. |
-| `src/components/GallerySection.jsx` | Renders placeholder gallery tiles using CSS tone classes (no image assets or network fetches). |
-| `src/components/ContactSection.jsx` | Contact form (name, email, message) with client-side validation: required fields, email format check, a submitting state that prevents double-sends, and a stub success message. **Client-only — no backend; nothing is transmitted or stored.** |
-| `src/components/Footer.jsx` | Page footer. |
+| `src/App.jsx` | Top-level component; composes the landing page sections in order (Hero, Menu, Hours, Gallery, Contact) plus a skip link and Footer. Imports `HeroSection` from `./components/HeroSection.jsx` and `Footer` from `./components/Footer.jsx`. |
+| `src/data/site.js` | Single source of truth for all editable content: site name, tagline "Slow coffee, warm mornings", blurb, menu items with prices (espresso, latte, cold brew), per-day opening hours (open/close fields, `null` for closed days), and gallery placeholder tone classes. Exports `menu` and `gallery` plus the aliases `menuItems` and `galleryItems` so all consumers resolve correctly. |
+| `src/components/HeroSection.jsx` | Displays shop name "Bean & Brew" and tagline "Slow coffee, warm mornings" verbatim, plus the blurb from `site.js`, with "View our menu" and "Get in touch" CTAs. |
+| `src/components/MenuSection.jsx` | Renders menu items and prices from the `menuItems` export of `site.js`. |
+| `src/components/HoursSection.jsx` | Displays per-day opening hours from `site.js` as a definition list; renders "Closed" when a day's open/close values are `null` (e.g. Sunday). |
+| `src/components/GallerySection.jsx` | Renders placeholder gallery tiles using CSS tone classes from the `galleryItems` export of `site.js` (no image assets or network fetches). |
+| `src/components/ContactSection.jsx` | Contact form (name, email, message) with client-side validation: required fields, email format check, a submitting state that disables the submit button to prevent double-sends, and a stub success message. **Client-only — no backend; nothing is transmitted or stored.** |
+| `src/components/Footer.jsx` | Page footer rendering the site name, tagline, and copyright from `site.js`, styled with the stone/amber Tailwind palette. |
 | `src/index.css` | Global stylesheet and Tailwind entry. |
 | `vite.config.js` | Vite configuration registering `@vitejs/plugin-react`; dev/preview servers are host-exposed for the live preview. |
 | `package.json` | Declares dependencies (react, react-dom, vite, @vitejs/plugin-react, tailwindcss) and scripts (`dev`, `build`, `preview`). |
 | `docs/architecture.md` | This document. |
+
+## Data Flow
+
+All page content flows from a single module, `src/data/site.js`:
+
+- `site` (name, tagline, blurb) → `HeroSection`, `Footer`
+- `menu` / `menuItems` (alias) → `MenuSection`
+- `hours` (per-day open/close, `null` = closed) → `HoursSection`
+- `gallery` / `galleryItems` (alias) → `GallerySection`
+
+Edit `src/data/site.js` to change any page content; no component changes are needed for copy, prices, hours, or gallery placeholders.
 
 ## Data & Integrations
 
@@ -114,20 +126,20 @@ End-to-end summary: the visitor requests the page from either the Vite dev serve
 
 | Command | Purpose |
 |---|---|
-| `npm install` | Install dependencies (react, react-dom, vite, @vitejs/plugin-react, tailwindcss). |
-| `npm run dev` | Start the Vite dev server with HMR for local development. |
-| `npm run build` | Produce the production bundle in `dist/`. **Verified: compiles without errors.** |
-| `npm run preview` | Serve the `dist` bundle; powers the live preview deployment step. **Verified: all sections (hero, menu, hours, gallery, contact) render correctly.** |
+| `pnpm install` | Install dependencies (react, react-dom, vite, @vitejs/plugin-react, tailwindcss). |
+| `pnpm run dev` | Start the Vite dev server with HMR for local development. |
+| `pnpm run build` | Produce the production bundle in `dist/`. **Verified: compiles without errors.** |
+| `pnpm run preview` | Serve the `dist` bundle; powers the live preview deployment step. **Verified: all sections (hero, menu, hours, gallery, contact) render correctly.** |
 | Tests | **Not available** — no test framework or test files are configured. |
 | Lint | **Not available** — no linter configuration exists. |
 
-Verification relies on a successful `npm run build` and the deployed live preview.
+Verification relies on a successful `pnpm run build` and the deployed live preview.
 
 ## Conventions
 
 - **Indentation:** 2-space indent throughout all source files.
 - **Quotes:** Single quotes in JavaScript/JSX.
-- **Styling:** All styling via Tailwind utility classes; no separate component CSS files.
+- **Styling:** All styling via Tailwind utility classes (stone/amber palette); no separate component CSS files.
 - **Components:** React function components composed into a single landing page, mounted once via `react-dom`.
 - **Accessibility:** Skip link in `App.jsx`, semantic `<section>` elements with headings, labeled form inputs (`htmlFor`/`id`), and aria labels on gallery placeholder tiles.
 - **Copy:** Shop name "Bean & Brew" and tagline "Slow coffee, warm mornings" appear verbatim in the hero.
@@ -135,8 +147,6 @@ Verification relies on a successful `npm run build` and the deployed live previe
 
 ## Risks & Gaps
 
-- **Import path mismatch:** `src/App.jsx` imports `Hero` from `./components/Hero.jsx`, but the file on disk is `src/components/HeroSection.jsx` (which exports `HeroSection`). This mismatch should be reconciled to avoid a broken build.
-- **Footer component not in digest:** `App.jsx` imports `./components/Footer.jsx`, but no `Footer.jsx` appears in the repository file list; its contents are unverified.
 - **No quality gates:** No tests, linting, or CI configuration exist; verification depends on a successful build and the live preview.
 - **Client-only contact form:** Submissions are validated and acknowledged client-side only; no data is sent anywhere. A form-handling service is needed for real submissions.
 - **Placeholder gallery:** Gallery tiles are CSS color placeholders per the issue's requirement; replace with real images when assets are available.
