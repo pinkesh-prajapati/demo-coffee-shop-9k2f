@@ -51,7 +51,7 @@ export default function ContactSection() {
           Questions, catering, or just saying hi? Drop us a message.
         </p>
 
-n        {status === 'success' ? (
+        {status === 'success' ? (
           <div
             role="status"
             aria-live="polite"

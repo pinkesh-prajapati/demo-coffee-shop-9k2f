@@ -1,4 +1,4 @@
-import Hero from './components/Hero.jsx';
+import HeroSection from './components/HeroSection.jsx';
 import MenuSection from './components/MenuSection.jsx';
 import HoursSection from './components/HoursSection.jsx';
 import GallerySection from './components/GallerySection.jsx';
@@ -14,7 +14,7 @@ export default function App() {
       >
         Skip to content
       </a>
-      <Hero />
+      <HeroSection />
       <main id="main-content">
         <MenuSection />
         <HoursSection />

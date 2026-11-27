@@ -1,4 +1,4 @@
-import { site } from '../data/site.js';
+import { siteInfo } from '../data/site.js';
 
 export default function HeroSection() {
   return (
@@ -8,10 +8,10 @@ export default function HeroSection() {
     >
       <div className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-          {site.name}
+          {siteInfo.name}
         </h1>
         <p className="mt-4 text-xl text-stone-300 sm:text-2xl">
-          {site.tagline}
+          {siteInfo.tagline}
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
